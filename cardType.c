@@ -1,9 +1,20 @@
 #include "cardType.h"
 #include <stdio.h>
+#include <string.h>
 
 
+int card_TOTAL[N_TOTAL];
 
-void cType_printCard(int cardType)
+int arrayCopy(int *card, int CARDOFFSET, int N)
+{
+    int i;
+    for (i=CARDOFFSET; i<CARDOFFSET+N; i++)
+    {
+        card_TOTAL[i] = card[i];
+    }
+}
+
+int cardDeclare()
 {
     int card_2[N_2TO9] = {2,2,2};
     int card_3[N_2TO9] = {3,3,3};
@@ -25,11 +36,41 @@ void cType_printCard(int cardType)
 
     int card_76[N_76] = {76};
 
-    int N_0[N_ZERO] = {0,0,0,0};
+    int card_0[N_ZERO] = {0,0,0,0};
+
+    int card_MINUS[N_MINUS] = {-10,-10,-10,-10};
+
+    int card_x2[N_DOUBLE] = {x2,x2,x2,x2};
+    
+    arrayCopy(card_2, CARDOFFSET_2TO9+N_2TO9*0, N_2TO9);
+    arrayCopy(card_3, CARDOFFSET_2TO9+N_2TO9*1, N_2TO9);
+    arrayCopy(card_4, CARDOFFSET_2TO9+N_2TO9*2, N_2TO9);
+    arrayCopy(card_5, CARDOFFSET_2TO9+N_2TO9*3, N_2TO9);
+    arrayCopy(card_6, CARDOFFSET_2TO9+N_2TO9*4, N_2TO9);
+    arrayCopy(card_7, CARDOFFSET_2TO9+N_2TO9*5, N_2TO9);
+    arrayCopy(card_8, CARDOFFSET_2TO9+N_2TO9*6, N_2TO9);
+    arrayCopy(card_9, CARDOFFSET_2TO9+N_2TO9*7, N_2TO9);
+    arrayCopy(card_10, CARDOFFSET_TEN, N_TEN);
+    arrayCopy(card_11, CARDOFFSET_11N+N_11N*0, N_11N);
+    arrayCopy(card_22, CARDOFFSET_11N+N_11N*1, N_11N);
+    arrayCopy(card_33, CARDOFFSET_11N+N_11N*2, N_11N);
+    arrayCopy(card_44, CARDOFFSET_11N+N_11N*3, N_11N);
+    arrayCopy(card_55, CARDOFFSET_11N+N_11N*4, N_11N);
+    arrayCopy(card_66, CARDOFFSET_11N+N_11N*5, N_11N);
+    arrayCopy(card_76, CARDOFFSET_76, N_76);
+    arrayCopy(card_0, CARDOFFSET_ZERO, N_ZERO);
+    arrayCopy(card_MINUS, CARDOFFSET_MINUS, N_MINUS);
+    arrayCopy(card_x2, CARDOFFSET_DOUBLE, N_DOUBLE);
 
 
-
+    
 }
+
+void cType_printCard(int cardType)
+{
+    
+}
+
 
 int cType_getCardNum(int cardType)
 {
