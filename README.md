@@ -3,6 +3,8 @@ manipulated robo77 with C
 
 전자공학도를위한프로그래밍기초 _프로젝트1
 
+※오리지널 로보77 카드게임 규칙 참고 동영상: https://youtu.be/Hcq3aFwpm5E
+
 ※로보77 문제 정의:
   1. 전체 카드를 섞어서 뒤집힌 상태의 카드묶음 생성
   2. 게임 시작 시 각 플레이어 별로 N_CARDHOLD 개의 카드를 flipped card group로부터 순서대로 받음
@@ -35,3 +37,4 @@ manipulated robo77 with C
 - 선택되어 바닥에 놓는 카드
 - 생명을 잃은 경우 이에 대한 문구 및 원인
 - 최종 결과 (생명을 모두 잃고 진 플레이어)
+
