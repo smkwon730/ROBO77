@@ -58,3 +58,4 @@ int cGroup_pullCard(void) {                 //flipped card group에서 한 장 �
 void cGroup_pushCard(int cardType) {        //opened card group에 한 장을 놓음
     card_opened[cnt_opened++] = cardType;   //오픈한 카드 증가
 }
+
