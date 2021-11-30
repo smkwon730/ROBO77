@@ -1,72 +1,60 @@
 #include <stdio.h>
-#include <string.h>
 #include "cardGroup.h"
 #include "cardType.h"
 #include "stdlib.h"
 #include "time.h"
 
-int card_flipped[N_TOTAL];
-int card_opened[N_TOTAL];
-int cnt_flipped;
-int cnt_opened;
+#define CARD_NONE       -1
+
+int card_flipped[N_TOTAL];      //플레이어에게 뽑힌 카드
+int card_opened[N_TOTAL];       //플레이어가 낸 카드
+int cnt_flipped;                //덱에 있는 카드 수 (뽑을 카드 수)
+int cnt_opened;                 //플레이어가 낸 카드 수
 
 
-static void cGroup_shuffleCard(int *Target, int amount)     //(섞을 카드집단 배열, 수)
-{
-    int i, n;
-    int temp;
-    srand(time(NULL));
-    for (i = amount-1; i>=0; i--)
-    {
-        n =rand()%amount;
-        temp = Target[i];
-        Target[i] = Target[n];
-        Target[n] = temp;
-    }
-}
-
-int flippedCardGroup[];
-int openedCardGroup[N_TOTAL];       // 오픈된 카드 배열을 모두 Empty로 초기화
-memset(openedCardGroup, EMP, N_TOTAL*sizeof(int));
-
-
-void cGroup_initCard(void)      //flipped/opened card group 초기화
-{
-    srand((unsigned int)time(NULL));
-    cGroup_shuffleCard(card_ALL, N_TOTAL);
-}
-
-int cGroup_pullCard(void)       //flipped card group에서 한장 가져옴
-{
-    
-}
-
-int cGroup_holdCards(void)      //처음에 카드 나눠주는 함수
-
-void cGroup_pushCard(int num, int *sum)      //opened card group에 한장을 놓음
-{
-    /*opened card group에 한 장을 놓는 함수
-
-   내는 카드(cardType)와 합계의 포인터를 인자로 받음
-   일반 카드는 0 반환
-   x2는 MUL 반환
-   */
-    if (num >= 0)
-        *sum += num;
-
-    else
-    {
-        switch (num)
-        {
-            case -10:
-                *sum += -10;
-                break;
-
-            case x2:
-                return x2;
-                break;
-
+static void cGroup_shuffleCard(int Ncard, int clearOption) {        //카드를 섞는 함수
+    if (clearOption) {                                              //cGroup_initCard에서 실행
+        for (int i = 0; i < Ncard - 1; i++) {                       //전체 카드를 섞음
+            int j = i + rand() / (RAND_MAX / (Ncard - i) + 1);
+            int t = card_flipped[j];
+            card_flipped[j] = card_flipped[i];
+            card_flipped[i] = t;
         }
     }
-    return 0;
+    else {                                          //cGroup_pullCard에서 실행
+        for (int i = 0; i < cnt_opened; i++) {      //opened card group에 있는 카드를 랜덤으로 하나씩 골라 위치를 바꿔 섞음
+            int j = i + rand() / (RAND_MAX / (Ncard - i) + 1);
+            int t = card_opened[j];
+            card_opened[j] = card_opened[i];
+            card_opened[i] = t;
+        }
+
+        for (int i = 0; i < cnt_opened; i++) {      //오픈된 카드를 다시 뽑을 수 있도록 덱에 넣음
+            card_flipped[i] = card_opened[i];
+            cnt_flipped--;
+        }
+        cnt_opened = 0;
+    }
+
+}
+
+
+void cGroup_initCard(void) {                //flipped/opened card group 초기화
+    for (int i = 0; i < N_TOTAL; i++) {
+        card_flipped[i] = i;
+    }
+
+    srand((unsigned int)time(NULL));
+    cGroup_shuffleCard(N_TOTAL, 1);
+}
+
+int cGroup_pullCard(void) {                 //flipped card group에서 한 장 가져옴
+    if (cnt_flipped == N_TOTAL) {           //카드를 모두 뽑았을 때 실행
+        cGroup_shuffleCard(N_TOTAL, 0);
+    }
+    return card_flipped[cnt_flipped++];     //뽑은 카드 증가
+}
+
+void cGroup_pushCard(int cardType) {        //opened card group에 한 장을 놓음
+    card_opened[cnt_opened++] = cardType;   //오픈한 카드 증가
 }
